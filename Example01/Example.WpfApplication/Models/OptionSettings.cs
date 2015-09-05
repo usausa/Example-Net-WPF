@@ -17,8 +17,8 @@
             get { return counter; }
             set
             {
-                this.counter = value;
-                OnPropertyChanged();
+                counter = value;
+                RaisePropertyChanged();
             }
         }
     }
