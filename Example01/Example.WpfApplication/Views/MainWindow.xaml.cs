@@ -1,4 +1,4 @@
-﻿namespace Example.WpfApplication
+﻿namespace Example.WpfApplication.Views
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
