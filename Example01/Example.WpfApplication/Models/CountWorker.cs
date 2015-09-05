@@ -9,7 +9,7 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class CoreServiceManager : IDisposable
+    public sealed class CountWorker : IDisposable
     {
         public event EventHandler<LogEventArgs> Logged;
 
@@ -24,13 +24,29 @@
         /// <summary>
         ///
         /// </summary>
-        public bool Executing => executing.WaitOne(0);
+        public bool Executing
+        {
+            get { return executing.WaitOne(0); }
+            set
+            {
+                if (value)
+                {
+                    executing.Set();
+                }
+                else
+                {
+                    executing.Reset();
+                }
+
+                ExecutingChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="coreService"></param>
-        public CoreServiceManager(CoreService coreService)
+        public CountWorker(CoreService coreService)
         {
             this.coreService = coreService;
         }
@@ -51,7 +67,7 @@
         /// <param name="message"></param>
         private void NotifyLog(LogType logType, string message)
         {
-            Logged?.Invoke(this, new LogEventArgs(logType, message));
+            Logged?.Invoke(this, new LogEventArgs(DateTime.Now, logType, message));
         }
 
         /// <summary>
@@ -74,8 +90,7 @@
             }
 
             cancel.Reset();
-            executing.Set();
-            ExecutingChanged?.Invoke(this, EventArgs.Empty);
+            Executing = true;
 
             NotifyLog(LogType.Information, "Start.");
 
@@ -109,8 +124,7 @@
             }
             finally
             {
-                executing.Reset();
-                ExecutingChanged?.Invoke(this, EventArgs.Empty);
+                Executing = false;
 
                 NotifyLog(LogType.Information, "Stop.");
             }

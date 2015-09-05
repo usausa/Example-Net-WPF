@@ -5,8 +5,13 @@
     /// </summary>
     public partial class OptionWindow
     {
-        public OptionWindow()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="vm"></param>
+        public OptionWindow(OptionViewModel vm)
         {
+            DataContext = vm;
             InitializeComponent();
         }
     }

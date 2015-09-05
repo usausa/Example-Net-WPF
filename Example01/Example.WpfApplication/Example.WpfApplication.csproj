@@ -111,7 +111,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CoreServiceManager.cs" />
+    <Compile Include="Models\CountWorker.cs" />
     <Compile Include="Models\LogEventArgs.cs" />
     <Compile Include="Models\LogType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -1,12 +1,40 @@
-﻿<Window x:Class="Example.WpfApplication.Views.OptionWindow"
+﻿<metro:Window x:Class="Example.WpfApplication.Views.OptionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Example.WpfApplication.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:metro="http://schemas.codeplex.com/elysium"
+        xmlns:params="http://schemas.codeplex.com/elysium/params"
+        xmlns:si="clr-namespace:Smart.Windows.Interactivity;assembly=Smart.Windows"
+        xmlns:views="clr-namespace:Example.WpfApplication.Views"
         mc:Ignorable="d"
-        Title="OptionWindow" Height="300" Width="300">
+        d:DataContext="{d:DesignInstance Type={x:Type views:OptionViewModel}}"
+        metro:Window.IsMainWindow="True"
+        params:Design.Theme="Light"
+        params:Design.AccentBrush="{x:Static metro:AccentBrushes.Blue}"
+        params:Design.ContrastBrush="White"
+        WindowStartupLocation="CenterScreen"
+        Title="Option" Height="110" Width="181" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <i:Interaction.Behaviors>
+        <si:DragMoveBehavior/>
+    </i:Interaction.Behaviors>
     <Grid>
-        
+        <Button Content="-" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75" IsEnabled="{Binding OptionSettings.DecrementEnable}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding OptionSettings, Mode=OneWay}" MethodName="Decrement"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="+" HorizontalAlignment="Left" Margin="90,41,0,0" VerticalAlignment="Top" Width="75" IsEnabled="{Binding OptionSettings.IncrementEnable}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding OptionSettings, Mode=OneWay}" MethodName="Increment"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Label Content="{Binding OptionSettings.Counter}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Foreground="White" Background="#FF2B5797"/>
     </Grid>
-</Window>
+</metro:Window>

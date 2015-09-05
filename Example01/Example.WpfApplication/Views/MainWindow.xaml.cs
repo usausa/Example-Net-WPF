@@ -5,8 +5,13 @@
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="vm"></param>
+        public MainWindow(MainViewModel vm)
         {
+            DataContext = vm;
             InitializeComponent();
         }
     }
