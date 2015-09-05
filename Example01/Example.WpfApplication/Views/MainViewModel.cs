@@ -8,6 +8,7 @@
     using System.Reactive.Linq;
     using System.Text;
 
+    using Example.Models;
     using Example.WpfApplication.Models;
 
     using Smart.Windows.ViewModels;
@@ -17,11 +18,16 @@
     /// </summary>
     public class MainViewModel : DisposableViewModelBase
     {
-        private readonly CountWorker countWorker;
+        private readonly LongProcessWorker worker;
 
         private readonly OptionSettings optionSettings;
 
-        private bool startable;
+        private bool running;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public IWindowManager WindowManager { get; }
 
         /// <summary>
         ///
@@ -36,17 +42,17 @@
         /// <summary>
         ///
         /// </summary>
-        public bool Startable
+        public bool Running
         {
-            get { return startable; }
+            get { return running; }
             set
             {
-                if (startable == value)
+                if (running == value)
                 {
                     return;
                 }
 
-                startable = value;
+                running = value;
                 RaisePropertyChanged();
             }
         }
@@ -54,22 +60,24 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="countWorker"></param>
+        /// <param name="worker"></param>
         /// <param name="optionSettings"></param>
-        public MainViewModel(CountWorker countWorker, OptionSettings optionSettings)
+        /// <param name="windowManager"></param>
+        public MainViewModel(LongProcessWorker worker, OptionSettings optionSettings, IWindowManager windowManager)
         {
-            this.countWorker = countWorker;
+            this.worker = worker;
             this.optionSettings = optionSettings;
             Log = new ObservableCollection<LogEntry>();
+            WindowManager = windowManager;
 
             Disposables.Add(Observable
-                .FromEvent<EventHandler<LogEventArgs>, LogEventArgs>(h => (s, e) => h(e), h => countWorker.Logged += h, h => countWorker.Logged -= h)
+                .FromEvent<EventHandler<LogEventArgs>, LogEventArgs>(h => (s, e) => h(e), h => worker.Logged += h, h => worker.Logged -= h)
                 .ObserveOnDispatcher()
                 .Subscribe(e => Log.Add(new LogEntry(e.DateTime, e.LogType, e.Message))));
             Disposables.Add(Observable
-                .FromEvent<EventHandler<EventArgs>, EventArgs>(h => (s, e) => h(e), h => countWorker.ExecutingChanged += h, h => countWorker.ExecutingChanged -= h)
+                .FromEvent<EventHandler<EventArgs>, EventArgs>(h => (s, e) => h(e), h => worker.ExecutingChanged += h, h => worker.ExecutingChanged -= h)
                 .ObserveOnDispatcher()
-                .Subscribe(e => Startable = countWorker.Executing));
+                .Subscribe(e => Running = worker.Executing));
         }
 
         /// <summary>
@@ -77,15 +85,15 @@
         /// </summary>
         public void Start()
         {
-            countWorker.Start(optionSettings.Counter);
+            worker.Start(optionSettings.Level);
         }
 
         /// <summary>
-        /// 選択ログのコピー
+        ///
         /// </summary>
         public void Cancel()
         {
-            countWorker.Cancel();
+            worker.Cancel();
         }
 
         /// <summary>

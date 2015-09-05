@@ -5,7 +5,7 @@
     using System.Windows.Data;
     using System.Windows.Media;
 
-    using Example.WpfApplication.Models;
+    using Example.Models;
 
     /// <summary>
     ///

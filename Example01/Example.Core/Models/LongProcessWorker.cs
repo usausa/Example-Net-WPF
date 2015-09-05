@@ -1,21 +1,17 @@
-﻿namespace Example.WpfApplication.Models
+﻿namespace Example.Models
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Example.Models;
-
     /// <summary>
     ///
     /// </summary>
-    public sealed class CountWorker : IDisposable
+    public sealed class LongProcessWorker : IDisposable
     {
         public event EventHandler<LogEventArgs> Logged;
 
         public event EventHandler<EventArgs> ExecutingChanged;
-
-        private readonly CoreService coreService;
 
         private readonly ManualResetEvent executing = new ManualResetEvent(false);
 
@@ -40,15 +36,6 @@
 
                 ExecutingChanged?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="coreService"></param>
-        public CountWorker(CoreService coreService)
-        {
-            this.coreService = coreService;
         }
 
         /// <summary>
@@ -81,8 +68,8 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="counter"></param>
-        public void Start(int counter)
+        /// <param name="level"></param>
+        public void Start(int level)
         {
             if (Executing)
             {
@@ -94,32 +81,30 @@
 
             NotifyLog(LogType.Information, "Start.");
 
-            Task.Factory.StartNew(state => Worker((int)state), counter);
+            Task.Factory.StartNew(state => Worker((int)state), level);
         }
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="counter"></param>
-        private void Worker(int counter)
+        /// <param name="level"></param>
+        private void Worker(int level)
         {
             try
             {
-                while (counter > 0)
+                while (level > 0)
                 {
-                    // キャンセル判定
                     if (cancel.WaitOne(0))
                     {
                         NotifyLog(LogType.Warning, "Canceled.");
                         break;
                     }
 
-                    // コアサービス呼び出し
-                    coreService.Something();
+                    Thread.Sleep(1000);
 
-                    NotifyLog(LogType.Debug, $"Step. counter=[{counter}]");
+                    NotifyLog(LogType.Debug, $"Step. remain=[{level}]");
 
-                    counter--;
+                    level--;
                 }
             }
             finally

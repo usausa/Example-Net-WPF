@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CoreService.cs" />
+    <Compile Include="Models\LongProcessWorker.cs" />
+    <Compile Include="Models\LogEventArgs.cs" />
+    <Compile Include="Models\LogType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

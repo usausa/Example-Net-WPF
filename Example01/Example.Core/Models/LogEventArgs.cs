@@ -1,4 +1,4 @@
-﻿namespace Example.WpfApplication.Models
+﻿namespace Example.Models
 {
     using System;
 

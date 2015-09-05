@@ -1,12 +1,101 @@
-﻿<Window x:Class="Example.WpfApplication.Views.MainWindow"
+﻿<metro:Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:metro="http://schemas.codeplex.com/elysium"
+        xmlns:params="http://schemas.codeplex.com/elysium/params"
+        xmlns:sd="clr-namespace:Smart.Windows.Data;assembly=Smart.Windows"
+        xmlns:si="clr-namespace:Smart.Windows.Interactivity;assembly=Smart.Windows"
+        xmlns:converters="clr-namespace:Example.WpfApplication.Converters"
         xmlns:views="clr-namespace:Example.WpfApplication.Views"
+        xmlns:models="clr-namespace:Example.WpfApplication.Models"
+        x:Class="Example.WpfApplication.Views.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        d:DataContext="{d:DesignInstance Type={x:Type views:MainViewModel}}"
+        metro:Window.IsMainWindow="True"
+        params:Design.Theme="Light"
+        params:Design.AccentBrush="{x:Static metro:AccentBrushes.Blue}"
+        params:Design.ContrastBrush="White"
+        params:Window.MinimizeButtonToolTip="Minimize"
+        params:Window.MaximizeButtonToolTip="Maximize"
+        params:Window.RestoreButtonToolTip="Restore"
+        params:Window.CloseButtonToolTip="Close"
+        WindowStartupLocation="CenterScreen"
+        Title="Sample" Height="350" Width="525">
+    <metro:Window.Resources>
+        <converters:LogColorConverter x:Key="LogColorConverter" Debug="#FFE3A21A" Information="#FF00A300" Warning="#FFB91D47"/>
+        <sd:DateFormatConverter x:Key="DateFormatConverter" Format="HH:mm:ss.fff"/>
+        <sd:NotConverter x:Key="NotConverter"/>
+    </metro:Window.Resources>
+    <metro:Window.TitleBar>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <ToggleButton Content="Option" IsChecked="{Binding WindowManager.OptionVisible}" />
+            </StackPanel>
+        </Grid>
+    </metro:Window.TitleBar>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <si:CancelEventHandleAction Cancel="{Binding Running}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <si:DataContextDisposeAction/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
-        
+        <Button Content="Start" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" IsEnabled="{Binding Running, Converter={StaticResource NotConverter}}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="Start"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" IsEnabled="{Binding Running}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="Cancel"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Clear" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="Clear"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <ToggleButton x:Name="Scroll" Content="Scroll" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="75" IsChecked="True"/>
+        <ListBox Margin="10,46,10,10" ItemsSource="{Binding Log}" SelectionMode="Extended" ItemTemplate="{DynamicResource ListBoxDataTemplate}">
+            <ListBox.Resources>
+                <DataTemplate x:Key="ListBoxDataTemplate">
+                    <Grid d:DataContext="{d:DesignInstance Type={x:Type models:LogEntry}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding DateTime, Converter={StaticResource DateFormatConverter}, Mode=OneWay}" />
+                        <TextBlock Grid.Column="1" Text="{Binding LogType, Mode=OneWay}" Foreground="{Binding LogType, Converter={StaticResource LogColorConverter}, Mode=OneWay}" />
+                        <TextBlock Grid.Column="2" Text="{Binding Message, Mode=OneWay}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.Resources>
+            <i:Interaction.Behaviors>
+                <si:ScrollOnLastItemBehavior Enabled="{Binding IsChecked, ElementName=Scroll}"/>
+                <si:ListBoxSelectedItemsBehavior SelectedItems="{Binding SelectedLog, Mode=OneWayToSource}"/>
+            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <ei:KeyTrigger Key="C" Modifiers="Control">
+                    <si:ClipboardSetDataAction TargetObject="{Binding Mode=OneWay}" MethodName="Copy" Format="Text"/>
+                </ei:KeyTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
     </Grid>
-</Window>
+</metro:Window>

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Example.WpfApplication.Views
+﻿namespace Example.WpfApplication.Views
 {
     using Example.WpfApplication.Infrastructure;
 
@@ -9,7 +7,7 @@ namespace Example.WpfApplication.Views
     /// <summary>
     ///
     /// </summary>
-    public interface IWindowsManager
+    public interface IWindowManager
     {
         /// <summary>
         ///
@@ -20,7 +18,7 @@ namespace Example.WpfApplication.Views
     /// <summary>
     ///
     /// </summary>
-    public class WindowManager : NotificationObject, IWindowsManager
+    public class WindowManager : NotificationObject, IWindowManager
     {
         private readonly IDependencyResolver resolver;
 

@@ -1,5 +1,7 @@
 ﻿namespace Example.WpfApplication.Views
 {
+    using System.Globalization;
+
     using Example.WpfApplication.Models;
 
     using Smart.ComponentModel;
@@ -21,6 +23,15 @@
         public OptionViewModel(OptionSettings optionSettings)
         {
             OptionSettings = optionSettings;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public string Copy()
+        {
+            return OptionSettings.Level.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

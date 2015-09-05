@@ -20,6 +20,11 @@
     <i:Interaction.Behaviors>
         <si:DragMoveBehavior/>
     </i:Interaction.Behaviors>
+    <i:Interaction.Triggers>
+        <ei:KeyTrigger Key="C" Modifiers="Control">
+            <si:ClipboardSetDataAction TargetObject="{Binding Mode=OneWay}" MethodName="Copy" Format="Text"/>
+        </ei:KeyTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Button Content="-" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="75" IsEnabled="{Binding OptionSettings.DecrementEnable}">
             <i:Interaction.Triggers>
@@ -35,6 +40,6 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <Label Content="{Binding OptionSettings.Counter}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Foreground="White" Background="#FF2B5797"/>
+        <Label Content="{Binding OptionSettings.Level}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Foreground="White" Background="#FF2B5797"/>
     </Grid>
 </metro:Window>

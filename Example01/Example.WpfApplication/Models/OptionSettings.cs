@@ -9,23 +9,23 @@
     {
         private readonly int max;
 
-        private int counter;
+        private int level;
 
         /// <summary>
         ///
         /// </summary>
-        public int Counter
+        public int Level
         {
-            get { return counter; }
+            get { return level; }
             private set
             {
-                if (counter == value)
+                if (level == value)
                 {
                     return;
                 }
 
-                counter = value;
-                RaisePropertyChanged(nameof(Counter));
+                level = value;
+                RaisePropertyChanged(nameof(Level));
                 RaisePropertyChanged(nameof(IncrementEnable));
                 RaisePropertyChanged(nameof(DecrementEnable));
             }
@@ -34,22 +34,22 @@
         /// <summary>
         ///
         /// </summary>
-        public bool IncrementEnable => counter < max;
+        public bool IncrementEnable => level < max;
 
         /// <summary>
         ///
         /// </summary>
-        public bool DecrementEnable => counter > 1;
+        public bool DecrementEnable => level > 1;
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="counter"></param>
+        /// <param name="level"></param>
         /// <param name="max"></param>
-        public OptionSettings(int counter, int max)
+        public OptionSettings(int level, int max)
         {
             this.max = max;
-            this.counter = counter;
+            this.level = level;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
                 return;
             }
 
-            Counter++;
+            Level++;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@
                 return;
             }
 
-            Counter--;
+            Level--;
         }
     }
 }
