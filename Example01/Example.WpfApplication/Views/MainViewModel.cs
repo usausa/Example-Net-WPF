@@ -45,16 +45,7 @@
         public bool Running
         {
             get { return running; }
-            set
-            {
-                if (running == value)
-                {
-                    return;
-                }
-
-                running = value;
-                RaisePropertyChanged();
-            }
+            set { SetProperty(ref running, value); }
         }
 
         /// <summary>

@@ -24,6 +24,8 @@
     <Rule Id="SA1005" Action="Hidden" />
     <Rule Id="SA1009" Action="Hidden" />
     <Rule Id="SA1622" Action="Hidden" />
+    <Rule Id="SA1623" Action="Hidden" />
+    <Rule Id="SA1649" Action="Hidden" />
     <Rule Id="SA1504" Action="Hidden" />
     <Rule Id="SA1516" Action="Hidden" />
   </Rules>
