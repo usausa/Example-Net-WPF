@@ -52,12 +52,20 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Smart, Version=0.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Usa.Smart.Core.0.5.2\lib\net462\Smart.dll</HintPath>
+    <Reference Include="Smart, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Usa.Smart.Core.0.6.1\lib\net462\Smart.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Smart.Reactive, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Usa.Smart.Reactive.0.2.1\lib\net462\Smart.Reactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Smart.Windows, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Usa.Smart.Windows.0.2.1\lib\net462\Smart.Windows.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Smart.Windows.Reactive, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Usa.Smart.Windows.Reactive.0.2.1\lib\net462\Smart.Windows.Reactive.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -164,14 +172,6 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Smart.Windows\Smart.Windows.Reactive\Smart.Windows.Reactive.csproj">
-      <Project>{fd0246ae-c63c-468f-a0bf-7c48777211c0}</Project>
-      <Name>Smart.Windows.Reactive</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Smart.Windows\Smart.Windows\Smart.Windows.csproj">
-      <Project>{096d42e1-e503-4be7-971d-6351e60319e1}</Project>
-      <Name>Smart.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Example.Core\Example.Core.csproj">
       <Project>{0a72e7e0-c10a-47ca-a4f2-60173a7e30c5}</Project>
       <Name>Example.Core</Name>
